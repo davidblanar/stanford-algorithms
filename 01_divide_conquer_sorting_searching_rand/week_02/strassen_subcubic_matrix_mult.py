@@ -1,7 +1,7 @@
 def strassen_mult(X, Y):
 	"""
 	Returns the multiplication of two matrices using Strassen's method
-	Currently only works for even matrices due to partitioning
+	Currently only works for even matrices due to partitioning, this can be circumvented using padding
 		Parameters:
 			X (int[][]): A 2D array of integers
 			Y (int[][]): A 2D array of integers
