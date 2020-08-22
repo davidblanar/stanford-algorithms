@@ -11,23 +11,21 @@ def quick_sort(arr):
 		return arr
 
 	def swap(a, i1, i2):
-		temp = a[i1]
-		a[i1] = a[i2]
-		a[i2] = temp
+		a[i1], a[i2] = a[i2], a[i1]
 
 	def pivot(a):
-		pivotIdx = 0;
-		pivot = a[pivotIdx]
+		pivot_idx = 0;
+		pivot = a[pivot_idx]
 
 		for i in range(1, len(a)):
 			if pivot > a[i]:
-				pivotIdx += 1
-				swap(a, i , pivotIdx)
+				pivot_idx += 1
+				swap(a, i , pivot_idx)
 
-		swap(a, 0, pivotIdx)
-		return pivotIdx
+		swap(a, 0, pivot_idx)
+		return pivot_idx
 
-	pivotIdx = pivot(arr)
-	leftArr = arr[0:pivotIdx + 1]
-	rightArr = arr[pivotIdx + 1:]
+	pivot_idx = pivot(arr)
+	leftArr = arr[0:pivot_idx + 1]
+	rightArr = arr[pivot_idx + 1:]
 	return quick_sort(leftArr) + quick_sort(rightArr)
