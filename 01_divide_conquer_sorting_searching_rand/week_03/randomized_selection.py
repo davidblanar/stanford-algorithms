@@ -1,6 +1,16 @@
 from random import randrange, randint
 
 def randomized_selection(arr, k):
+	"""
+	Finds the kth smallest element in an array of integers
+		Parameters:
+			arr (int[]): An array of integers
+			k (int): the position of the element to look for
+
+		Returns:
+			x (int): The kth smallest element of the input array
+	"""
+
 	def swap(a, i1, i2):
 		a[i1], a[i2] = a[i2], a[i1]
 
