@@ -6,7 +6,6 @@ import sys
 
 class Graph:
 	def __init__(self, vertices = None):
-		# print(vertices)
 		self.vertices = {} if vertices is None else vertices
 
 	def get_vertices(self):
