@@ -5,8 +5,9 @@ from math import log, ceil
 import sys
 
 class Graph:
-	def __init__(self):
-		self.vertices = {}
+	def __init__(self, vertices = None):
+		# print(vertices)
+		self.vertices = {} if vertices is None else vertices
 
 	def get_vertices(self):
 		return self.vertices
@@ -20,6 +21,9 @@ class Graph:
 
 		self.vertices[v1].append(v2)
 		self.vertices[v2].append(v1)
+
+	def has_edge(self, v1, v2):
+		return v1 in self.vertices and v2 in self.vertices[v1]
 
 	# returns two vertices that are connected by an edge
 	def get_random_edge(self):
@@ -55,6 +59,11 @@ class Graph:
 		for key, value in self.vertices.items():
 			self.vertices[key] = [item for item in value if item != key]
 
+	def deep_copy(self):
+		vertices = {}
+		for key, value in self.vertices.items():
+			vertices[key] = value[:]
+		return Graph(vertices)
 
 def min_cut(graph):
 	"""
@@ -70,7 +79,7 @@ def min_cut(graph):
 		graph.contract_edge(v1, v2)
 	return graph.get_vertices()
 
-def min_cut_len(graph):
+def min_cut_len(graph, increase_success_rate = False):
 	"""
 	Calculates the amount of the edges intersecting the minimal cut of a graph
 		Parameters:
@@ -88,13 +97,16 @@ def min_cut_len(graph):
 		denom = reduce(op.mul, range(1, r + 1), 1)
 		return numer // denom
 
-	n = len(graph.get_vertices())
 	# calculate the amount of attempts that should be executed to increase the probability of a correct result roughly to 1/n
 	# where n is the amount of vertices
 	# https://en.wikipedia.org/wiki/Karger%27s_algorithm#Success_probability_of_the_contraction_algorithm
-	attempts = ceil(ncr(n, 2) * log(n))
+	# this is optional as it would make the algorithm too slow for larger graphs
+	n = len(graph.get_vertices())
+	attempts = ceil(ncr(n, 2) * log(n)) if increase_success_rate else n
 	minimum = sys.maxsize
 	for _ in range(attempts):
-		result = min_cut(graph)
-		minimum = min(minimum, len(result))
+		g = graph.deep_copy()
+		result = min_cut(g)
+		key = list(result.keys())[0]
+		minimum = min(minimum, len(result[key]))
 	return minimum
