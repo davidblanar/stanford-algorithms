@@ -1,3 +1,6 @@
+# Divide and Conquer, Sorting and Searching, and Randomized Algorithms
+# https://www.coursera.org/learn/algorithms-divide-conquer
+
 from random import randrange, randint
 import operator as op
 from functools import reduce
@@ -196,66 +199,6 @@ def quick_sort(arr):
 	return quick_sort(leftArr) + quick_sort(rightArr)
 
 # week 4
-class Graph:
-	def __init__(self, vertices = None):
-		self.vertices = {} if vertices is None else vertices
-
-	def get_vertices(self):
-		return self.vertices
-
-	# adds an edge between two vertices
-	def add_edge(self, v1, v2):
-		if v1 not in self.vertices:
-			self.vertices[v1] = []
-		if v2 not in self.vertices:
-			self.vertices[v2] = []
-
-		self.vertices[v1].append(v2)
-		self.vertices[v2].append(v1)
-
-	def has_edge(self, v1, v2):
-		return v1 in self.vertices and v2 in self.vertices[v1]
-
-	# returns two vertices that are connected by an edge
-	def get_random_edge(self):
-		vertices = list(self.vertices.keys())
-		idx = randrange(len(vertices))
-		# choose a random vertex
-		vertex = vertices[idx]
-		edges = self.vertices[vertex]
-		idx = randrange(len(edges))
-		# choose another random vertex that is connected to the first one
-		other_vertex = edges[idx]
-		return vertex, other_vertex
-		
-	# contract and edge and merge the two vertices together
-	def contract_edge(self, v1, v2):
-		vertex1 = self.vertices[v1]
-		vertex2 = self.vertices[v2]
-		for item in vertex2:
-			vertex1.append(item)
-		del self.vertices[v2]
-		for key, value in self.vertices.items():
-			new_edges = []
-			for item in value:
-				if item == v2:
-					new_edges.append(v1)
-				else:
-					new_edges.append(item)
-			self.vertices[key] = new_edges
-		self.remove_loops()
-
-	# removes looping edges, i.e. edges that connect a vertex to itself
-	def remove_loops(self):
-		for key, value in self.vertices.items():
-			self.vertices[key] = [item for item in value if item != key]
-
-	def deep_copy(self):
-		vertices = {}
-		for key, value in self.vertices.items():
-			vertices[key] = value[:]
-		return Graph(vertices)
-
 def min_cut(graph):
 	"""
 	Calculates the minimal cut of a graph using Karger's randomized contraction algorithm

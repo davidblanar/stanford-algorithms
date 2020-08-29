@@ -1,7 +1,8 @@
 import unittest
 import sys
 import os
-from c01_divide_conquer_sorting_searching import count_inversions, strassen_mult, quick_sort, min_cut_len, Graph, randomized_selection
+from c01_divide_conquer_sorting_searching import count_inversions, strassen_mult, quick_sort, min_cut_len, randomized_selection
+from graph import UndirectedGraph
 
 class TestCountInversion(unittest.TestCase):
 	def test_count_inversions(self):
@@ -81,7 +82,7 @@ class TestQuickSort(unittest.TestCase):
 
 class TestMinCut(unittest.TestCase):
 	def test_min_cut(self):
-		g = Graph()
+		g = UndirectedGraph()
 		g.add_edge("A", "B")
 		g.add_edge("B", "C")
 		g.add_edge("C", "D")
@@ -92,7 +93,7 @@ class TestMinCut(unittest.TestCase):
 	def test_min_cut_large(self):
 		filepath = os.path.abspath("./min_cut_data.txt")
 		f = open(filepath, "r")
-		g = Graph()
+		g = UndirectedGraph()
 		for line in f.readlines():
 			arr = line.split("\t")[:-1]
 			vertex = arr[0]
