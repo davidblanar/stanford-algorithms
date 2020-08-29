@@ -5,6 +5,7 @@ from graph import DirectedGraph
 from c02_graph_search_shortest_path import kosaraju
 import threading
 
+# ugly hack to work around the max call stack size for scc.txt
 sys.setrecursionlimit(800000)
 threading.stack_size(67108864)
 
@@ -53,6 +54,5 @@ class TestSCC(unittest.TestCase):
 		self.assertEqual(sorted_lengths[:5], [434821, 968, 459, 313, 211])
 
 if __name__ == "__main__":
-	# ugly hack to work around the max call stack size for scc.txt
 	thread = threading.Thread(target=unittest.main)
 	thread.start()
