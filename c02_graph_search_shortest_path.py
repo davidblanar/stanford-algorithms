@@ -84,7 +84,6 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 	weights = graph.get_weights()
 	unvisited = set()
 	distances = {}
-	previous = {}
 
 	for v in vertices:
 		unvisited.add(v)
@@ -100,7 +99,6 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 				distance = weights[weight_key] + distances[closest]
 				if distance < distances[w]:
 					distances[w] = distance
-					previous[w] = closest
 		unvisited.remove(closest)
 
 	return distances
