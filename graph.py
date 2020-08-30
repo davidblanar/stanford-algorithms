@@ -121,3 +121,43 @@ class DirectedGraph(Graph):
 	def deep_copy(self):
 		vertices = self.copy_vertices()
 		return DirectedGraph(vertices)
+
+class WeightedGraph(Graph):
+	def __init__(self, vertices = None, weights = None):
+		super().__init__(vertices)
+		self.weights = weights if weights != None else {}
+
+	def get_weights(self):
+		return self.weights
+
+	def get_weight_key(self, v1, v2):
+		return "{}-{}".format(v1, v2)
+
+	def get_weight(self, v1, v2):
+		key = self.get_weight_key(v1, v2)
+		return self.weights[key]
+
+class WeightedUndirectedGraph(UndirectedGraph, WeightedGraph):
+	def add_edge(self, v1, v2, weight):
+		assert weight >= 0
+		super().add_edge(v1, v2)
+		key1 = self.get_weight_key(v1, v2)
+		self.weights[key1] = weight
+		key2 = self.get_weight_key(v1, v2)
+		self.weights[key2] = weight
+
+	def deep_copy(self):
+		vertices = self.copy_vertices()
+		return WeightedUndirectedGraph(vertices, self.weights)
+
+class WeightedDirectedGraph(DirectedGraph, WeightedGraph):
+	def add_edge(self, v1, v2, weight):
+		assert weight >= 0
+		super().add_edge(v1, v2)
+		key = self.get_weight_key(v1, v2)
+		self.weights[key] = weight
+
+	def deep_copy(self):
+		vertices = self.copy_vertices()
+		return WeightedDirectedGraph(vertices, self.weights)
+

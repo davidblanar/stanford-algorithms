@@ -1,6 +1,8 @@
 # Graph Search, Shortest Paths, and Data Structures
 # https://www.coursera.org/learn/algorithms-graphs-data-structures
 
+import sys
+
 # week 1
 def kosaraju(graph):
 	"""
@@ -53,3 +55,35 @@ def kosaraju(graph):
 			dfs(graph, value, visited, scss)
 
 	return scss
+
+# week 2
+def dijkstra(graph, source_vertex, max_value = sys.maxsize):
+	"""
+	Computes the shortest path for the source vertex
+	Assumes non-negative edge-lengths
+		Parameters:
+			graph (WeightedGraph): A weighted graph
+			source_vertex (str): The source vertex for which to compute the shortest path to every other vertex
+			max_value (int): The value to use as the base distance between two vertices
+		Returns:
+			path_lengths (dict): A dictionary of path lengths from source vertex to every other vertex
+	"""
+	assert source_vertex in graph.get_vertices()
+
+	path_lengths = {}
+	vertices = graph.get_vertices()
+	weights = graph.get_weights()
+	path_lengths[source_vertex] = 0
+
+	for key in vertices:
+		minimum = max_value
+		edges = vertices[key]
+		for edge in edges:
+			weight_key = graph.get_weight_key(key, edge)
+			weight = weights[weight_key]
+			if weight < minimum:
+				score = path_lengths[key] if key in path_lengths else 0
+				path_lengths[edge] = score + weight
+			minimum = min(minimum, weight)
+		
+	return path_lengths
