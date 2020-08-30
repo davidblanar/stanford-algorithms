@@ -143,7 +143,7 @@ class WeightedUndirectedGraph(UndirectedGraph, WeightedGraph):
 		super().add_edge(v1, v2)
 		key1 = self.get_weight_key(v1, v2)
 		self.weights[key1] = weight
-		key2 = self.get_weight_key(v1, v2)
+		key2 = self.get_weight_key(v2, v1)
 		self.weights[key2] = weight
 
 	def deep_copy(self):

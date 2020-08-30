@@ -2,6 +2,7 @@
 # https://www.coursera.org/learn/algorithms-graphs-data-structures
 
 import sys
+from graph import WeightedUndirectedGraph
 
 # week 1
 def kosaraju(graph):
@@ -66,24 +67,40 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 			source_vertex (str): The source vertex for which to compute the shortest path to every other vertex
 			max_value (int): The value to use as the base distance between two vertices
 		Returns:
-			path_lengths (dict): A dictionary of path lengths from source vertex to every other vertex
+			distances (dict): A dictionary of path lengths from source vertex to every other vertex
 	"""
-	assert source_vertex in graph.get_vertices()
-
-	path_lengths = {}
 	vertices = graph.get_vertices()
-	weights = graph.get_weights()
-	path_lengths[source_vertex] = 0
+	assert source_vertex in vertices
 
-	for key in vertices:
+	def find_closest(unvisited_vertices, dist_map):
 		minimum = max_value
-		edges = vertices[key]
-		for edge in edges:
-			weight_key = graph.get_weight_key(key, edge)
-			weight = weights[weight_key]
-			if weight < minimum:
-				score = path_lengths[key] if key in path_lengths else 0
-				path_lengths[edge] = score + weight
-			minimum = min(minimum, weight)
-		
-	return path_lengths
+		res = None
+		for item in unvisited_vertices:
+			if dist_map[item] < minimum:
+				minimum = dist_map[item]
+				res = item
+		return res
+
+	weights = graph.get_weights()
+	unvisited = set()
+	distances = {}
+	previous = {}
+
+	for v in vertices:
+		unvisited.add(v)
+		distances[v] = max_value
+	distances[source_vertex] = 0
+
+	while len(unvisited) > 0:
+		closest = find_closest(unvisited, distances)
+		edges = vertices[closest]
+		for w in edges:
+			if w in unvisited:
+				weight_key = graph.get_weight_key(closest, w)
+				distance = weights[weight_key] + distances[closest]
+				if distance < distances[w]:
+					distances[w] = distance
+					previous[w] = closest
+		unvisited.remove(closest)
+
+	return distances
