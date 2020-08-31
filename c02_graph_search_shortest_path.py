@@ -69,9 +69,12 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 		Returns:
 			distances (dict): A dictionary of path lengths from source vertex to every other vertex
 	"""
+	# note: this is currently O(m * n) because of the naive implementation
+	# this could be brought down to O(m + n) using a heap
 	vertices = graph.get_vertices()
 	assert source_vertex in vertices
 
+	# find the unvisited vertex with lowest distance score
 	def find_closest(unvisited_vertices, dist_map):
 		minimum = max_value
 		res = None
@@ -85,20 +88,29 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 	unvisited = set()
 	distances = {}
 
+	# by default all vertices are unvisited and all distances are maximal
 	for v in vertices:
 		unvisited.add(v)
 		distances[v] = max_value
+	# distance of the source vertex to itself is 0
 	distances[source_vertex] = 0
 
 	while len(unvisited) > 0:
+		# find the closest unvisited vertex
+		# this will automatically select the source vertex on the first iteration
 		closest = find_closest(unvisited, distances)
 		edges = vertices[closest]
 		for w in edges:
 			if w in unvisited:
+				# if the edge is unvisited, retrieve its distance
 				weight_key = graph.get_weight_key(closest, w)
 				distance = weights[weight_key] + distances[closest]
+				# if the distance is smaller that the currently recorded distance for that vertex, update it with the lower value
 				if distance < distances[w]:
 					distances[w] = distance
+		# remove the processed vertex from the set of unvisited vertices
 		unvisited.remove(closest)
 
 	return distances
+
+# week 3
