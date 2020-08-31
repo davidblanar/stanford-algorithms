@@ -70,7 +70,7 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 			distances (dict): A dictionary of path lengths from source vertex to every other vertex
 	"""
 	# note: this is currently O(m * n) because of the naive implementation
-	# this could be brought down to O(m + n) using a heap
+	# this could be brought down to O(m * log(n)) using a heap
 	vertices = graph.get_vertices()
 	assert source_vertex in vertices
 
