@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from graph import DirectedGraph, WeightedDirectedGraph, WeightedUndirectedGraph
-from c02_graph_search_shortest_path import kosaraju, dijkstra, median_maintenance
+from c02_graph_search_shortest_path import kosaraju, dijkstra, median_maintenance, two_sum
 import threading
 
 # ugly hack to work around the max call stack size for scc.txt
@@ -130,6 +130,21 @@ class TestMedian(unittest.TestCase):
 		medians = median_maintenance(nums)
 		result = sum(medians) % 10000
 		self.assertEqual(result, 3171)
+
+class TestTwoSum(unittest.TestCase):
+	def test_two_sum(self):
+		nums = [
+			-3,
+			-1,
+			1,
+			2,
+			9,
+			11,
+			7,
+			6,
+			2
+		]
+		self.assertEqual(two_sum(nums, 3, 10), 8)
 
 if __name__ == "__main__":
 	thread = threading.Thread(target=unittest.main)

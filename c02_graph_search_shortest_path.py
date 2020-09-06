@@ -165,3 +165,39 @@ def median_maintenance(nums):
 		medians.append(median)
 
 	return medians
+
+# week 4
+# note: not going to test this with the provided testing file
+# as it contains 1 000 000 integers, which would take forever
+def two_sum(nums, start, end):
+	"""
+	Computes the count of distinct numbers x, y in a list of values T that statisfy the condition
+	that x + y = t where t is a number in the list T, over the interval [start, end]
+		Parameters:
+			nums (int[]): A list of numbers
+			start (int): The start of the interval
+			end (int): The end of the interval
+		Returns:
+			count (int): The count of distinct numbers x, y that satisfy the condition above
+	"""
+	count = 0
+	table = {}
+	
+	for num in nums:
+		if num not in table:
+			table[num] = True
+
+	def _two_sum(y):
+		result = []
+		for num in nums:
+			key = y - num
+			if key in table and num != key - num:
+				result.append((key, num))
+		return result
+
+	for i in range(start, end + 1):
+		result = _two_sum(i)
+		if len(result) > 0:
+			count += 1
+	
+	return count
