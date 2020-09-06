@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from graph import DirectedGraph, WeightedDirectedGraph, WeightedUndirectedGraph
-from c02_graph_search_shortest_path import kosaraju, dijkstra
+from c02_graph_search_shortest_path import kosaraju, dijkstra, median_maintenance
 import threading
 
 # ugly hack to work around the max call stack size for scc.txt
@@ -101,6 +101,35 @@ class TestDijkstra(unittest.TestCase):
 			result.append(path_lengths[v])
 
 		self.assertEqual(result, expected)		
+
+class TestMedian(unittest.TestCase):
+	def test_median(self):
+		nums = [
+			6331,
+			2793,
+			1640,
+			9290,
+			225,
+			625,
+			6195,
+			2303,
+			5685,
+			1354
+		]
+		medians = median_maintenance(nums)
+		result = sum(medians) % 10000
+		self.assertEqual(result, 3939.5)
+
+	def test_median_large(self):
+		filepath = os.path.abspath("./median.txt")
+		f = open(filepath, "r")
+		nums = []
+		for line in f.readlines():
+			nums.append(int(line))
+		f.close()
+		medians = median_maintenance(nums)
+		result = sum(medians) % 10000
+		self.assertEqual(result, 3171)
 
 if __name__ == "__main__":
 	thread = threading.Thread(target=unittest.main)

@@ -3,6 +3,7 @@
 
 import sys
 from graph import WeightedUndirectedGraph
+from heap import Heap
 
 # week 1
 def kosaraju(graph):
@@ -114,3 +115,53 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 	return distances
 
 # week 3
+def median_maintenance(nums):
+	"""
+	Computes the medians of a list of numbers
+		Parameters:
+			nums (int[]): A list of numbers
+		Returns:
+			medians (int[]): The medians for the provided list
+	"""
+
+	# low is a max-heap because it uses a comparator which multiplies the number by -1
+	low = Heap(lambda x: -x)
+	# high is a min-heap (uses default comparator)
+	high = Heap()
+	# array of results to be returned
+	medians = []
+
+	def push(num):
+		if low.size() == 0 or num < low.peek():
+			low.insert(num)
+		else:
+			high.insert(num)
+
+	def balance_heaps():
+		# determine which of the heaps is larger
+		larger_heap = low if low.size() > high.size() else high
+		smaller_heap = high if low.size() > high.size() else low
+		if larger_heap.size() - smaller_heap.size() >= 2:
+			# if the difference is larger than 1 extract an item from the larger heap
+			# and store it in the smaller heap
+			smaller_heap.insert(larger_heap.extract())
+
+	def calc_median(num):
+		# determine which of the heaps is larger
+		larger_heap = low if low.size() > high.size() else high
+		smaller_heap = high if low.size() > high.size() else low
+		# if both heaps are the same size an even amount of numbers was supplied
+		# calculate the average of the two "middle" numbers
+		if smaller_heap.size() == larger_heap.size():
+			return (smaller_heap.peek() + larger_heap.peek()) / 2
+		# otherwise return the root of the larger of the heaps
+		else:
+			return larger_heap.peek()
+
+	for num in nums:
+		push(num)
+		balance_heaps()
+		median = calc_median(num)
+		medians.append(median)
+
+	return medians
