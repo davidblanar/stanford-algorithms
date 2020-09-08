@@ -91,7 +91,7 @@ class TestMinCut(unittest.TestCase):
 		self.assertEqual(min_cut_len(g), 2)
 
 	def test_min_cut_large(self):
-		filepath = os.path.abspath("./min_cut_data.txt")
+		filepath = os.path.abspath("./files/min_cut_data.txt")
 		f = open(filepath, "r")
 		g = UndirectedGraph()
 		for line in f.readlines():

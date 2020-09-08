@@ -35,7 +35,7 @@ class TestSCC(unittest.TestCase):
 		self.assertEqual(kosaraju(g), expected)
 
 	def test_scc_large(self):
-		filepath = os.path.abspath("./scc.txt")
+		filepath = os.path.abspath("./files/scc.txt")
 		f = open(filepath, "r")
 		g = DirectedGraph()
 		for line in f.readlines():
@@ -79,7 +79,7 @@ class TestDijkstra(unittest.TestCase):
 		self.assertEqual(dijkstra(g, "A"), expected)
 
 	def test_dijkstra_undirected_large(self):
-		filepath = os.path.abspath("./dijkstra.txt")
+		filepath = os.path.abspath("./files/dijkstra.txt")
 		f = open(filepath, "r")
 		g = WeightedUndirectedGraph()
 		for line in f.readlines():
@@ -121,7 +121,7 @@ class TestMedian(unittest.TestCase):
 		self.assertEqual(result, 3939.5)
 
 	def test_median_large(self):
-		filepath = os.path.abspath("./median.txt")
+		filepath = os.path.abspath("./files/median.txt")
 		f = open(filepath, "r")
 		nums = []
 		for line in f.readlines():
