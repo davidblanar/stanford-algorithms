@@ -1,5 +1,4 @@
 import unittest
-import sys
 import os
 from c01_divide_conquer_sorting_searching import count_inversions, strassen_mult, quick_sort, min_cut_len, randomized_selection
 from graph import UndirectedGraph

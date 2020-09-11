@@ -2,7 +2,6 @@
 # https://www.coursera.org/learn/algorithms-graphs-data-structures
 
 import sys
-from graph import WeightedUndirectedGraph
 from heap import Heap
 
 # week 1
