@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from random import randrange
 from queue import Queue
+import heapq
 
 class Graph(ABC):
 	def __init__(self, vertices = None):
@@ -137,9 +138,18 @@ class WeightedGraph(Graph):
 		key = self.get_weight_key(v1, v2)
 		return self.weights[key]
 
+	def get_weights_heap(self):
+		queues = {}
+		for v in self.vertices:
+			queues[v] = []
+			edges = self.vertices[v]
+			for w in edges:
+				weight = self.get_weight(v, w)
+				heapq.heappush(queues[v], (weight, w))
+		return queues
+
 class WeightedUndirectedGraph(UndirectedGraph, WeightedGraph):
 	def add_edge(self, v1, v2, weight):
-		assert weight >= 0
 		super().add_edge(v1, v2)
 		key1 = self.get_weight_key(v1, v2)
 		self.weights[key1] = weight
@@ -152,7 +162,6 @@ class WeightedUndirectedGraph(UndirectedGraph, WeightedGraph):
 
 class WeightedDirectedGraph(DirectedGraph, WeightedGraph):
 	def add_edge(self, v1, v2, weight):
-		assert weight >= 0
 		super().add_edge(v1, v2)
 		key = self.get_weight_key(v1, v2)
 		self.weights[key] = weight
