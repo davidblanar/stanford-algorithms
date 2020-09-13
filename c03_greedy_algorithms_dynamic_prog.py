@@ -126,7 +126,7 @@ def k_clustering(graph, k):
 		cluster_count -= 1
 		_, key = heapq.heappop(unique_edges)
 		key_1, key_2 = get_vertices_from_key(key)
-		union.merge(key_1, key_2)
+		union.union(key_1, key_2)
 
 	union_data = union.get_data()
 	while len(unique_edges) > 0:

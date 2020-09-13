@@ -10,7 +10,7 @@ class UnionFind:
 		return self.data[child]
 	
 	# merge two groups, group g2 becomes part of g1
-	def merge(self, g1, g2):
+	def union(self, g1, g2):
 		key = self.data[g2]
 		for child in self.data:
 			if self.data[child] == key:
