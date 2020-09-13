@@ -3,6 +3,7 @@
 
 import sys
 import heapq
+from union import UnionFind
 
 # week 1
 def job_score_diff(job):
@@ -40,7 +41,7 @@ def schedule_jobs(jobs, calc_score):
 
 	return completion_time
 
-def primm_mst(graph):
+def prim_mst(graph):
 	"""
 	Computes the cost of the MST of a weighted undirected graph
 		Parameters:
@@ -78,3 +79,58 @@ def primm_mst(graph):
 		v = w
 
 	return cost
+
+# week 2
+def k_clustering(graph, k):
+	"""
+	Computes the smallest distance between k clusters of an undirected weighted graph
+		Parameters:
+			graph (WeightedUndirectedGraph): A weighted undirected graph
+		Returns:
+			val (int): The smallest distance
+	"""
+	vertices = graph.get_vertices()
+	assert len(vertices) > 0
+	
+	def get_keys_from_vertices(g, v, w):
+		key_1 = g.get_weight_key(v, w)
+		key_2 = g.get_weight_key(w, v)
+		return key_1, key_2
+
+	def get_vertices_from_key(key):
+		keys = key.split("-")
+		return keys[0], keys[1]
+
+	seen = set()
+	weights = graph.get_weights()
+	unique_edges = []
+	union = UnionFind()
+	cluster_count = len(vertices)
+
+	for v in vertices:
+		union.insert(v, v)
+		edges = vertices[v]
+		for w in edges:
+			key_1, key_2 = get_keys_from_vertices(graph, v, w)
+			if key_1 not in seen and key_2 not in seen:
+				seen.add(key_1)
+				seen.add(key_2)
+				unique_edges.append((weights[key_1], key_1))
+	heapq.heapify(unique_edges)
+
+	if cluster_count <= k:
+		val, _ = heapq.heappop(unique_edges)
+		return val
+
+	while cluster_count != k:
+		cluster_count -= 1
+		_, key = heapq.heappop(unique_edges)
+		key_1, key_2 = get_vertices_from_key(key)
+		union.merge(key_1, key_2)
+
+	union_data = union.get_data()
+	while len(unique_edges) > 0:
+		val, key = heapq.heappop(unique_edges)
+		key_1, key_2 = get_vertices_from_key(key)
+		if union_data[key_1] != union_data[key_2]:
+			return val
