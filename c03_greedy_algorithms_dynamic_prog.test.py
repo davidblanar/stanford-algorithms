@@ -151,8 +151,9 @@ class TestHuffman(unittest.TestCase):
 			line = line.rstrip('\n')
 			frequencies.append(int(line))
 		f.close()
-		print(frequencies)
-		# self.assertEqual(k_clustering(g, 4), 106)
+		minimum, maximum = huffman_encoding(frequencies)
+		self.assertEqual(minimum, 9)
+		self.assertEqual(maximum, 19)
 
 if __name__ == "__main__":
 	unittest.main()
