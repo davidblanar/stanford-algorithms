@@ -1,6 +1,6 @@
 import unittest
 import os
-from c03_greedy_algorithms_dynamic_prog import schedule_jobs, job_score_diff, job_score_ratio, prim_mst, k_clustering
+from c03_greedy_algorithms_dynamic_prog import schedule_jobs, job_score_diff, job_score_ratio, prim_mst, k_clustering, huffman_encoding
 from graph import WeightedUndirectedGraph
 
 class TestJobScheduling(unittest.TestCase):
@@ -111,6 +111,48 @@ class TestClustering(unittest.TestCase):
 		f.close()
 		# TODO this returns an incorrect result, yet the smallest test cases pass - find out why
 		self.assertEqual(k_clustering(g, 4), 106)
+
+class TestHuffman(unittest.TestCase):
+	def test_huffman_small(self):
+		frequencies = [60, 25, 10, 5]
+		minimum, maximum = huffman_encoding(frequencies)
+		self.assertEqual(minimum, 1)
+		self.assertEqual(maximum, 3)
+
+	def test_huffman_medium(self):
+		frequencies = [
+			895,
+			121,
+			188,
+			953,
+			378,
+			849,
+			153,
+			579,
+			144,
+			727,
+			589,
+			301,
+			442,
+			327,
+			930
+		]
+		minimum, maximum = huffman_encoding(frequencies)
+		self.assertEqual(minimum, 3)
+		self.assertEqual(maximum, 6)
+
+	def test_huffman_large(self):
+		filepath = os.path.abspath("./files/huffman.txt")
+		f = open(filepath, "r")
+		# skip first line
+		next(f)
+		frequencies = []
+		for line in f.readlines():
+			line = line.rstrip('\n')
+			frequencies.append(int(line))
+		f.close()
+		print(frequencies)
+		# self.assertEqual(k_clustering(g, 4), 106)
 
 if __name__ == "__main__":
 	unittest.main()

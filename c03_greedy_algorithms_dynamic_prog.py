@@ -1,7 +1,6 @@
 # Greedy Algorithms, Minimum Spanning Trees, and Dynamic Programming
 # https://www.coursera.org/learn/algorithms-greedy
 
-import sys
 import heapq
 from union import UnionFind
 
@@ -134,3 +133,55 @@ def k_clustering(graph, k):
 		key_1, key_2 = get_vertices_from_key(key)
 		if union_data[key_1] != union_data[key_2]:
 			return val
+
+# week 3
+def huffman_encoding(frequencies):
+	"""
+	Computes the minimum and maximum bit size of symbols based on their frequencies
+		Parameters:
+			frequencies (int[]): A list of frequencies
+		Returns:
+			(min, max) (tuple): The minimum and maximum size
+	"""
+	def create_node(frequency):
+		return {
+			"frequency": frequency,
+			"left": None,
+			"right": None
+		}
+
+	def find_min(node):
+		if node is None:
+			return 0
+		if node["left"] is None and node["right"] is None:
+			# TODO maybe 1
+			return 0
+		if node["left"] is None:
+			return 1 + find_min(node["right"])
+		if node["right"] is None:
+			return 1 + find_min(node["left"])
+		return 1 + min(find_min(node["left"]), find_min(node["right"]))
+
+	def find_max(node):
+		if node is None:
+			return 0
+		left = find_max(node["left"])
+		right = find_max(node["right"])
+		return left + 1 if left > right else right + 1
+
+	heap = []
+	for frequency in frequencies:
+		item = (frequency, create_node(frequency))
+		heapq.heappush(heap, item)
+
+	while len(heap) != 1:
+		right_freq, right_node = heapq.heappop(heap)
+		left_freq, left_node = heapq.heappop(heap)
+		frequency = left_freq + right_freq
+		node = create_node(frequency)
+		node["left"] = left_node
+		node["right"] = right_node
+		heapq.heappush(heap, (frequency, node))
+
+	_, tree = heap[0]
+	return find_min(tree), find_max(tree) - 1
