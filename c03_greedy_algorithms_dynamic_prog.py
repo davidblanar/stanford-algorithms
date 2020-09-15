@@ -20,7 +20,7 @@ def schedule_jobs(jobs, calc_score):
 			jobs (tuple[]): A list of jobs, each job is represented by a tuple
 							in the form of (job_weight, job_length)
 		Returns:
-			completion_time (int): The completion item of all the jobs combined
+			(int): The completion item of all the jobs combined
 	"""
 	completion_time = 0
 	queue = []
@@ -46,7 +46,7 @@ def prim_mst(graph):
 		Parameters:
 			graph (WeightedUndirectedGraph): A weighted undirected graph
 		Returns:
-			cost (int): The cost of the MST
+			(int): The cost of the MST
 	"""
 	vertices = graph.get_vertices()
 	assert len(vertices) > 0
@@ -86,7 +86,7 @@ def k_clustering(graph, k):
 		Parameters:
 			graph (WeightedUndirectedGraph): A weighted undirected graph
 		Returns:
-			val (int): The smallest distance
+			(int): The smallest distance
 	"""
 	vertices = graph.get_vertices()
 	assert len(vertices) > 0
@@ -141,7 +141,7 @@ def huffman_encoding(frequencies):
 		Parameters:
 			frequencies (int[]): A list of frequencies
 		Returns:
-			(min, max) (tuple): The minimum and maximum size
+			(tuple): The minimum and maximum size
 	"""
 	def create_node(frequency):
 		return {
@@ -185,3 +185,20 @@ def huffman_encoding(frequencies):
 
 	_, tree = heap[0]
 	return find_min(tree), find_max(tree) - 1
+
+def max_wis(vertices, candidates):
+	"""
+	Determines whether the candidates are included in the maximal weighted independent set
+	of a list of weighted vertices
+		Parameters:
+			vertices (int[]): A list of vertex weights
+			candidates (int[]): A list of candidate vertices to check
+		Returns:
+			(str) A string containing 0's and 1's based on whether the candidate with the same index
+			is included in the maximal weighted independent set, 0 meaning exluded and 1 meaning included
+	"""
+
+	return ""
+
+v = [1,4,5,4]
+max_wis(v, [1,2,3,4]) # "0101"

@@ -16,7 +16,7 @@ def count_inversions(arr):
 			arr (int[]): An array of integers
 
 		Returns:
-			int: Count of inversions
+			(int): Count of inversions
 	"""
 	global count
 	count = 0
@@ -83,7 +83,7 @@ def strassen_mult(X, Y):
 			Y (int[][]): A 2D array of integers
 
 		Returns:
-			Z (int[][]): A 2D array of integers
+			(int[][]): A 2D array of integers
 	"""
 
 	# helper function to split a matrix into 4 sub-matrices
@@ -176,7 +176,7 @@ def quick_sort(arr):
 			arr (int[]): An array of integers
 
 		Returns:
-			arr (int[]): A sorted array of integers
+			(int[]): A sorted array of integers
 	"""
 	if len(arr) < 2:
 		return arr
@@ -206,7 +206,7 @@ def min_cut(graph):
 			graph (Graph): A graph to be examined
 
 		Returns:
-			vertices (dict): A dictionary containing the remaining vertices which represent the minimal cut
+			(dict): A dictionary containing the remaining vertices which represent the minimal cut
 	"""
 	while len(graph.get_vertices()) > 2:
 		v1, v2 = graph.get_random_edge()
@@ -220,7 +220,7 @@ def min_cut_len(graph, increase_success_rate = False):
 			graph (Graph): A graph to be examined
 
 		Returns:
-			minimum (int): The amount of edges intersecting the minimal cut of a graph
+			(int): The amount of edges intersecting the minimal cut of a graph
 	"""
 
 	# calculate n choose r
@@ -253,7 +253,7 @@ def randomized_selection(arr, k):
 			k (int): the position of the element to look for
 
 		Returns:
-			x (int): The kth smallest element of the input array
+			(int): The kth smallest element of the input array
 	"""
 	assert k > 0, "Second argument must be greater than 0"
 

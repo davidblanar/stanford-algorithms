@@ -11,9 +11,9 @@ def kosaraju(graph):
 		Parameters:
 			graph (DirectedGraph): A directed graph
 		Returns:
-			scss (dict): A dictionary containing all the SCCs of the graph
-						 The keys of the graph are the leaders of every SCC
-						 The values are the vertices belonging to that SCC
+			(dict): A dictionary containing all the SCCs of the graph
+					The keys of the graph are the leaders of every SCC
+					The values are the vertices belonging to that SCC
 	"""
 	global t
 	global s
@@ -67,7 +67,7 @@ def dijkstra(graph, source_vertex, max_value = sys.maxsize):
 			source_vertex (str): The source vertex for which to compute the shortest path to every other vertex
 			max_value (int): The value to use as the base distance between two vertices
 		Returns:
-			distances (dict): A dictionary of path lengths from source vertex to every other vertex
+			(dict): A dictionary of path lengths from source vertex to every other vertex
 	"""
 	# note: this is currently O(m * n) because of the naive implementation
 	# this could be brought down to O(m * log(n)) using a heap
@@ -120,7 +120,7 @@ def median_maintenance(nums):
 		Parameters:
 			nums (int[]): A list of numbers
 		Returns:
-			medians (int[]): The medians for the provided list
+			(int[]): The medians for the provided list
 	"""
 
 	# low is a max-heap because it uses a comparator which multiplies the number by -1
@@ -177,7 +177,7 @@ def two_sum(nums, start, end):
 			start (int): The start of the interval
 			end (int): The end of the interval
 		Returns:
-			count (int): The count of distinct numbers x, y that satisfy the condition above
+			(int): The count of distinct numbers x, y that satisfy the condition above
 	"""
 	count = 0
 	table = {}
