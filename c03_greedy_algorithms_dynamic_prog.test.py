@@ -1,7 +1,10 @@
 import unittest
 import os
-from c03_greedy_algorithms_dynamic_prog import schedule_jobs, job_score_diff, job_score_ratio, prim_mst, k_clustering, huffman_encoding, max_wis
+import sys
+from c03_greedy_algorithms_dynamic_prog import schedule_jobs, job_score_diff, job_score_ratio, prim_mst, k_clustering, huffman_encoding, max_wis, knapsack, knapsack_recursive
 from graph import WeightedUndirectedGraph
+
+sys.setrecursionlimit(800000)
 
 class TestJobScheduling(unittest.TestCase):
 	def test_job_scheduling(self):
@@ -155,30 +158,6 @@ class TestHuffman(unittest.TestCase):
 		self.assertEqual(minimum, 9)
 		self.assertEqual(maximum, 19)
 
-def WIS(weights):
-	"""Given the weights, return the A: optimal value, S: optimal path.
-	"""
-	A = [0]*(len(weights))
-	A[0] = 0
-	A[1] = weights[1]
-	
-	# Find the optimal value
-	for i in range(2, len(weights)):
-		A[i] = max(A[i-1], A[i-2]+weights[i])
-	
-	return A
-	# Trace back to find the optimal solution.
-	S= []
-	i = len(weights)-1 
-	while i >= 1:
-		if A[i-1] >= A[i-2]+weights[i]:
-			i = i-1
-		else:
-			S.append(i)
-			i = i-2
-	
-	return A, S
-
 class TestMaxWis(unittest.TestCase):
 	def test_max_wis_1(self):
 		vertices = [1,4,5,4]
@@ -257,6 +236,60 @@ class TestMaxWis(unittest.TestCase):
 				result += "0"
 
 		self.assertEqual(result, "10100110")
+
+class TestKnapsack(unittest.TestCase):
+	def test_knapsack_1(self):
+		items = [
+			(5, 60),
+			(3, 50),
+			(4, 70),
+			(2, 30)
+		]
+		knapsack_size = 5
+		self.assertEqual(knapsack(knapsack_size, items), 80)
+		self.assertEqual(knapsack_recursive(knapsack_size, items), 80)
+	
+	def test_knapsack_2(self):
+		items = [
+			(4, 3),
+			(3, 2),
+			(2, 4),
+			(3, 4)
+		]
+		knapsack_size = 6
+		self.assertEqual(knapsack(knapsack_size, items), 8)
+		self.assertEqual(knapsack_recursive(knapsack_size, items), 8)
+
+	def test_knapsack_small(self):
+		filepath = os.path.abspath("./files/knapsack1.txt")
+		f = open(filepath, "r")
+		first_line = next(f)
+		knapsack_size = int(first_line.split(" ")[0])
+
+		items = []
+		for line in f.readlines():
+			line = line.rstrip('\n')
+			x = line.split(" ")
+			items.append((int(x[1]), int(x[0])))
+		f.close()
+
+		self.assertEqual(knapsack(knapsack_size, items), 2493893)
+		self.assertEqual(knapsack_recursive(knapsack_size, items), 2493893)
+
+	def test_knapsack_big(self):
+		filepath = os.path.abspath("./files/knapsack_big.txt")
+		f = open(filepath, "r")
+		first_line = next(f)
+		knapsack_size = int(first_line.split(" ")[0])
+
+		items = []
+		for line in f.readlines():
+			line = line.rstrip('\n')
+			x = line.split(" ")
+			items.append((int(x[1]), int(x[0])))
+		f.close()
+		# only use recursive memoized version, iterative version takes too long
+		self.assertEqual(knapsack_recursive(knapsack_size, items), 4243395)
 
 
 if __name__ == "__main__":

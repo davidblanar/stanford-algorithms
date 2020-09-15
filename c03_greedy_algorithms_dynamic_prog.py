@@ -213,3 +213,57 @@ def max_wis(vertices):
 			s.add(i)
 			i -= 2
 	return s
+
+# week 4
+def knapsack(max_weight, items):
+	"""
+	Computes the optimal solution for the knapsack problem
+		Parameters:
+			max_weight (int): The maximum weight capacity
+			items: (tuple[]): A list of tuples, each containing the weight and the value of the item
+		Returns:
+			(int): The optimal solution
+	"""
+	arr = []
+	size = len(items)
+	for _ in range(0, size):
+		arr.append([0] * (max_weight + 1))
+
+	for i in range(0, len(arr)):
+		weight, val = items[i]
+		for w in range(0, max_weight + 1):
+			if arr[i][w] != 0:
+				continue
+			if i == 0 and w == 0:
+				continue
+			if weight > w:
+				arr[i][w] = arr[i - 1][w]
+			else:
+				arr[i][w] = max(arr[i - 1][w], arr[i - 1][w - weight] + val)
+
+	return arr[-1][-1]
+
+def knapsack_recursive(max_weight, items):
+	"""
+	A recursive memoized version of the knapsack() function for large inputs
+	"""
+	memo = {}
+	def ks(n, c, mem):
+		result = 0
+		if n in mem and c in mem[n]:
+			return mem[n][c]
+		weight, val = items[n]
+		if n == 0 or c == 0:
+			result = 0
+		elif weight > c:
+			result = ks(n - 1, c, mem)
+		else:
+			x = ks(n - 1, c, mem)
+			y = val + ks(n - 1, c - weight, mem)
+			result = max(x, y)
+		if n not in mem:
+			mem[n] = {}
+		mem[n][c] = result
+		return result
+
+	return ks(len(items) - 1, max_weight, memo)
