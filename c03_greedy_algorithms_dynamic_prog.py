@@ -186,19 +186,30 @@ def huffman_encoding(frequencies):
 	_, tree = heap[0]
 	return find_min(tree), find_max(tree) - 1
 
-def max_wis(vertices, candidates):
+def max_wis(vertices):
 	"""
-	Determines whether the candidates are included in the maximal weighted independent set
-	of a list of weighted vertices
+	Determines the maximal weighted independent set of a list of weighted vertices
 		Parameters:
 			vertices (int[]): A list of vertex weights
-			candidates (int[]): A list of candidate vertices to check
 		Returns:
-			(str) A string containing 0's and 1's based on whether the candidate with the same index
-			is included in the maximal weighted independent set, 0 meaning exluded and 1 meaning included
+			(set): The maximal weighted independent set of vertices
 	"""
+	s = set()
+	weights = [0]
+	for v in vertices:
+		weights.append(v)
 
-	return ""
+	size = len(weights)
+	arr = [0] * size
+	arr[1] = weights[1]
+	for i in range(2, size):
+		arr[i] = max(arr[i - 1], arr[i - 2] + weights[i])
 
-v = [1,4,5,4]
-max_wis(v, [1,2,3,4]) # "0101"
+	i = size - 1
+	while i >= 1:
+		if arr[i - 1] >= arr[i - 2] + weights[i]:
+			i -= 1
+		else:
+			s.add(i)
+			i -= 2
+	return s
