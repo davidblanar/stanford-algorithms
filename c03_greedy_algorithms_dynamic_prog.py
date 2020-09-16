@@ -248,22 +248,21 @@ def knapsack_recursive(max_weight, items):
 	A recursive memoized version of the knapsack() function for large inputs
 	"""
 	memo = {}
-	def ks(n, c, mem):
-		result = 0
-		if n in mem and c in mem[n]:
-			return mem[n][c]
+	def ks(n, w, mem):
+		if n in mem and w in mem[n]:
+			return mem[n][w]
 		weight, val = items[n]
-		if n == 0 or c == 0:
+		if n == 0 or w == 0:
 			result = 0
-		elif weight > c:
-			result = ks(n - 1, c, mem)
+		elif weight > w:
+			result = ks(n - 1, w, mem)
 		else:
-			x = ks(n - 1, c, mem)
-			y = val + ks(n - 1, c - weight, mem)
+			x = ks(n - 1, w, mem)
+			y = val + ks(n - 1, w - weight, mem)
 			result = max(x, y)
 		if n not in mem:
 			mem[n] = {}
-		mem[n][c] = result
+		mem[n][w] = result
 		return result
 
 	return ks(len(items) - 1, max_weight, memo)
