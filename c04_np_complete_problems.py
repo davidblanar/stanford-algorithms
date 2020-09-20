@@ -2,6 +2,7 @@
 # https://www.coursera.org/learn/algorithms-npcomplete
 
 import sys
+import math
 
 # week 1
 def all_pairs(graph):
@@ -54,3 +55,35 @@ def all_pairs(graph):
 			for j in r:
 				minimum = min(minimum, arr[i][j][k])
 	return minimum
+
+def travelling_salesman(coords):
+	"""
+	Computes the shortest path for the Traveling Salesman Problem
+		Parameters:
+			coords (tuple[]): A list of cities to visit, each city being represented by a tuple (x, y)
+							  with x and y being the coordinates
+		Returns:
+			(int): the shortest distance in which all the cities can be visited
+	"""
+	# TODO currently this is slow, need to optimize
+	def distance(p1, p2):
+		x, y = p1
+		z, w = p2
+		return math.sqrt(((x - z) ** 2) + ((y - w) ** 2))
+
+	def ts(root, current, s):
+		if len(s) == 0:
+			return distance(current, root)
+		if len(s) == 1:
+			k = s[0]
+			return ts(root, k, []) + distance(current, k)
+		
+		minimum = sys.maxsize
+		for item in s:
+			c = s[:]
+			c.remove(item)
+			minimum = min(minimum, ts(root, item, c) + distance(current, item))
+		return minimum
+
+	root = coords[0]
+	return ts(root, root, coords[1:])
