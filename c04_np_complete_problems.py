@@ -135,6 +135,5 @@ def travelling_salesman_approx(coords):
 		_, z, w = last
 		total += euclidean_distance((x, y), (z, w))
 		minimum = min(minimum, total)
-		break
 	
 	return minimum
