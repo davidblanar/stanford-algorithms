@@ -1,7 +1,6 @@
 import unittest
-import math
 import os
-from c04_np_complete_problems import all_pairs, travelling_salesman, travelling_salesman_approx
+from c04_np_complete_problems import all_pairs, travelling_salesman, travelling_salesman_approx, two_sat
 
 class TestAllPairs(unittest.TestCase):
 	def test_all_pairs(self):
@@ -112,6 +111,93 @@ class TestSalesman(unittest.TestCase):
 		# note: not going to test the provided test file as it takes forever
 		x = travelling_salesman_approx(coords)
 		self.assertEqual(round(x, 2), 87.70)
-		
+
+class TestTwoSat(unittest.TestCase):
+	def test_two_sat(self):
+		a = [
+			(-1, -2),
+			(2, 2)
+		]
+		self.assertEqual(two_sat(a), True)
+		b = [
+			(1, 2),
+			(2, 2)
+		]
+		self.assertEqual(two_sat(b), True)
+		c = [
+			(2, 2),
+			(-2, -2)
+		]
+		self.assertEqual(two_sat(c), False)
+		d = [
+			(8, -8),
+			(-3, 4),
+			(2, -8),
+			(3, 3),
+			(2, 6),
+			(-2, -6),
+			(1, 6),
+			(4, 8)
+		]
+		self.assertEqual(two_sat(d), True)
+		e = [
+			(-3, -10),
+			(-9, -20),
+			(-5, 4),
+			(-9, -9),
+			(-12, 2),
+			(-13, -17),
+			(19, 2),
+			(-6, -5),
+			(-10, 16),
+			(5, 19),
+			(12, -10),
+			(-12, 8),
+			(12, 12),
+			(-16, -16),
+			(3, -19),
+			(10, -8),
+			(-18, -19),
+			(17, -5),
+			(3, 20),
+			(-15, -10)
+		]
+		self.assertEqual(two_sat(e), False)
+
+	def test_two_sat_large(self):
+		path_template = "./files/2sat{}.txt"
+		paths = []
+		for i in range(1, 7):
+			paths.append(path_template.format(i))
+
+		tests = []
+		for path in paths:
+			data = self.read_file_into_arr(path)
+			tests.append(data)
+
+		result = ""
+		for test in tests:
+			res = two_sat(test)
+			if res is True:
+				result += "1"
+			else:
+				result += "0"
+
+		self.assertEqual(result, "101100")
+
+
+	def read_file_into_arr(self, file_path):
+		filepath = os.path.abspath(file_path)
+		f = open(filepath, "r")
+		# skip first line
+		next(f)
+		data = []
+		for line in f.readlines():
+			line = line.rstrip('\n')
+			a = line.split(" ")
+			data.append((int(a[0]), int(a[1])))
+		f.close()
+		return data
+
 if __name__ == "__main__":
 	unittest.main()

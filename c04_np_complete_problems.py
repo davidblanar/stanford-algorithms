@@ -5,6 +5,9 @@ import sys
 import heapq
 from utils import euclidean_distance
 
+from graph import DirectedGraph
+from c02_graph_search_shortest_path import kosaraju
+
 # week 1
 def all_pairs(graph):
 	"""
@@ -137,3 +140,27 @@ def travelling_salesman_approx(coords):
 		minimum = min(minimum, total)
 	
 	return minimum
+
+def two_sat(items):
+	"""
+	Computes the solution to the 2-SAT problem
+		Parameters:
+			items (tuple[]): A list of boolean values
+		Returns:
+			(bool): True if the list of items is satisfiable, False otherwise
+	"""
+	def negate(num):
+		return num * -1
+
+	g = DirectedGraph()
+	for item in items:
+		x, y = item
+		g.add_edge(negate(x), y)
+		g.add_edge(negate(y), x)
+
+	scc = kosaraju(g)
+	for key in scc:
+		connected = scc[key]
+		if negate(key) in connected:
+			return False
+	return True
