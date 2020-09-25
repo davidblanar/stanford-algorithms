@@ -185,7 +185,6 @@ class TestTwoSat(unittest.TestCase):
 
 		self.assertEqual(result, "101100")
 
-
 	def read_file_into_arr(self, file_path):
 		filepath = os.path.abspath(file_path)
 		f = open(filepath, "r")
